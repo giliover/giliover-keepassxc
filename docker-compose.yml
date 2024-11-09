@@ -1,0 +1,22 @@
+services:
+  giliover-keepassxc:
+    container_name: giliover-keepassxc
+    image: giliover-keepassxc
+    stdin_open: true
+    privileged: true
+    tty: true
+    environment:
+      - DISPLAY=${DISPLAY}
+      - PULSE_SERVER=unix:/run/user/$UID/pulse/native
+    build:
+      context: .
+      dockerfile: ./Dockerfile.keepassxc
+    network_mode: "host"
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./database.keepassxc:/home/ubuntu/config
+      - /run/user/$UID/pulse:/run/user/$UID/pulse
+      - /dev/snd:/dev/snd
+    devices:
+      - /dev/snd
+    restart: no
